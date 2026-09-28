@@ -1,0 +1,7 @@
+{
+  "name": "TripRescue AI",
+  "description": "Intelligent travel recovery assistant that analyzes travel disruptions and rebuilds your itinerary.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
