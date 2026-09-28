@@ -81,21 +81,43 @@ export const BeforeAfterComparison: React.FC<BeforeAfterComparisonProps> = ({
             </div>
 
             {/* Original downstream itinerary items */}
-            {originalItems.map((item) => (
-              <div
-                key={item.id}
-                className="flex items-center justify-between p-3 rounded-xl bg-white/80 border border-[#FDE8DC] text-xs"
-              >
-                <div className="flex items-center gap-2.5">
-                  {getItemIcon(item.type)}
-                  <div>
-                    <span className="font-bold text-[#3A3331]">{item.activity}</span>
-                    <div className="text-[10px] text-[#756B66]">{item.location || item.type}</div>
+            {originalItems.length > 0 ? (
+              originalItems.map((item) => (
+                <div
+                  key={item.id}
+                  className="flex items-center justify-between p-3 rounded-xl bg-white/80 border border-[#FDE8DC] text-xs"
+                >
+                  <div className="flex items-center gap-2.5">
+                    {getItemIcon(item.type)}
+                    <div>
+                      <span className="font-bold text-[#3A3331]">{item.activity}</span>
+                      <div className="text-[10px] text-[#756B66]">{item.location || item.type}</div>
+                    </div>
                   </div>
+                  <span className="font-mono font-medium text-[#756B66]">{item.time}</span>
                 </div>
-                <span className="font-mono font-medium text-[#756B66]">{item.time}</span>
-              </div>
-            ))}
+              ))
+            ) : (
+              plan.updatedItinerary
+                .filter((item) => item.status !== 'Arrival')
+                .map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex items-center justify-between p-3 rounded-xl bg-white/80 border border-[#FDE8DC] text-xs"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      {getItemIcon(item.type)}
+                      <div>
+                        <span className="font-bold text-[#3A3331]">{item.activity}</span>
+                        <div className="text-[10px] text-[#756B66]">{item.location || item.type}</div>
+                      </div>
+                    </div>
+                    <span className="font-mono font-medium text-[#756B66]">
+                      {item.originalTime || item.time}
+                    </span>
+                  </div>
+                ))
+            )}
           </div>
 
           <div className="pt-2 text-[11px] text-[#756B66] border-t border-[#F6D9DC]/80">

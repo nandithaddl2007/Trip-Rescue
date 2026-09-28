@@ -87,8 +87,13 @@ export const JourneyMapSection: React.FC<JourneyMapSectionProps> = ({ trip, plan
           {/* Subtle connected line */}
           <div className="absolute top-12 left-8 right-8 h-0.5 border-t-2 border-dashed border-[#FDE8DC] z-0" />
 
-          <div className="grid grid-cols-4 gap-4 relative z-10">
-            {stops.slice(0, 4).map((stop, idx) => (
+          <div
+            className="grid gap-4 relative z-10"
+            style={{
+              gridTemplateColumns: `repeat(${Math.min(stops.length, 5)}, minmax(0, 1fr))`,
+            }}
+          >
+            {stops.slice(0, 5).map((stop) => (
               <div key={stop.id} className="flex flex-col items-center text-center space-y-3">
                 {/* Node Marker */}
                 <div

@@ -144,22 +144,28 @@ export const N8nChatbot: React.FC = () => {
         }
       } catch (proxyErr) {
         console.warn('Proxy error, attempting direct webhook:', proxyErr);
-        const directRes = await fetch(N8N_DIRECT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chatInput: trimmed,
-            message: trimmed,
-            sessionId,
-          }),
-        });
-        const data = await directRes.json();
-        replyText =
-          data.output ||
-          data.text ||
-          data.message ||
-          data.response ||
-          (typeof data === 'string' ? data : 'Response received.');
+        try {
+          const directRes = await fetch(N8N_DIRECT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chatInput: trimmed,
+              message: trimmed,
+              sessionId,
+            }),
+          });
+          if (directRes.ok) {
+            const data = await directRes.json();
+            replyText =
+              data.output ||
+              data.text ||
+              data.message ||
+              data.response ||
+              (typeof data === 'string' ? data : 'Response received.');
+          }
+        } catch (directErr) {
+          console.warn('Direct webhook unreachable, using built-in assistant fallback:', directErr);
+        }
       }
 
       // If reply is empty or fallback, formulate calm travel recovery assistant response
